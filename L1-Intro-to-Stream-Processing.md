@@ -2,7 +2,7 @@
 
 use `confluent_kafka`. 
 
-[documetation](https://docs.confluent.io/clients-confluent-kafka-python/current/index.html)
+[documetation](https://docs.confluent.io/5.0.0/clients/confluent-kafka-python/index.html)
 
 
 
