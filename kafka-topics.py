@@ -26,7 +26,7 @@ def create_topic(client: AdminClient, topic_name: str) -> NewTopic:
         },
     )
 
-    # a dict of futures for each topic, keyed by the topic name. 
+    # a dict of futures for each topic, keyed by the topic name.
     # :rtype: dict(<topic_name, future>)
     # https://docs.confluent.io/5.0.0/clients/confluent-kafka-python/
     futures: dict = client.create_topics([newTopic])
@@ -47,9 +47,9 @@ async def produce(topic_name):
     p = Producer({"bootstrap.servers": BROKER_URL})
     count = 0
     while True:
-       p.produce(topic_name, f"message: {count}".encode("utf-8"))
-       count += 1
-       await asyncio.sleep(0.5)
+        p.produce(topic_name, f"message: {count}".encode("utf-8"))
+        count += 1
+        await asyncio.sleep(0.5)
 
 
 async def consume(topic_name):
