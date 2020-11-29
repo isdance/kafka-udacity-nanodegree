@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 confluent-kafka = "*"
 faker = "*"
+fastavro = "*"
 
 [requires]
 python_version = "3.7"
