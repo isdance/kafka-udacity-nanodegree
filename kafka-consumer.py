@@ -12,9 +12,9 @@ async def consume(topic_name):
     # Sleep for a few seconds to give the producer time to create some data
     await asyncio.sleep(2.5)
 
-    # Action to take when there is no initial offset in offset store or the desired offset is out of range: 
-    # 'smallest','earliest' - automatically reset the offset to the smallest offset, 
-    # 'largest','latest' - automatically reset the offset to the largest offset, 
+    # Action to take when there is no initial offset in offset store or the desired offset is out of range:
+    # 'smallest','earliest' - automatically reset the offset to the smallest offset,
+    # 'largest','latest' - automatically reset the offset to the largest offset,
     # 'error' - trigger an error which is retrieved by consuming messages and checking 'message->err'.
     #  Type: enum value
     #        See: https://github.com/edenhill/librdkafka/blob/master/CONFIGURATION.md
@@ -22,7 +22,7 @@ async def consume(topic_name):
         {
             "bootstrap.servers": BROKER_URL,
             "group.id": "0",
-            "auto.offset.reset": "earliest" # or latest
+            "auto.offset.reset": "earliest",  # or latest
         }
     )
 
@@ -31,15 +31,27 @@ async def consume(topic_name):
     #        See: https://docs.confluent.io/current/clients/confluent-kafka-python/index.html?highlight=partition#confluent_kafka.Consumer.subscribe
     c.subscribe([topic_name], on_assign=on_assign)
 
+    # while True:
+    #     message = c.poll(timeout=1.0)
+    #     if message is None:
+    #         print("no message received by consumer")
+    #     elif message.error() is not None:
+    #         print(f"error from consumer {message.error()}")
+    #     else:
+    #         print(f"consumed message {message.key()}: {message.value()}")
+    #     await asyncio.sleep(0.1)
+
     while True:
-        message = c.poll(1.0)
-        if message is None:
-            print("no message received by consumer")
-        elif message.error() is not None:
-            print(f"error from consumer {message.error()}")
-        else:
-            print(f"consumed message {message.key()}: {message.value()}")
-        await asyncio.sleep(0.1)
+        messages = c.consume(num_messages=5, timeout=1.0)
+
+        for message in messages:
+            if message is None:
+                print("no message received by consumer")
+            elif message.error() is not None:
+                print(f"error from consumer {message.error()}")
+            else:
+                print(f"consumed message {message.key()}: {message.value()}")
+            await asyncio.sleep(0.1)
 
 
 def on_assign(consumer, partitions):
@@ -48,7 +60,7 @@ def on_assign(consumer, partitions):
     #        See: https://docs.confluent.io/5.0.0/clients/confluent-kafka-python/index.html?highlight=on_assign#confluent_kafka.Consumer.on_assign
     #        See: https://docs.confluent.io/current/clients/confluent-kafka-python/index.html?highlight=partition#confluent_kafka.TopicPartition
     for partition in partitions:
-        partition.offset = OFFSET_BEGINNING # "OFFSET_BEGINNING" is a special value imported from confluent_kafka library
+        partition.offset = OFFSET_BEGINNING  # "OFFSET_BEGINNING" is a special value imported from confluent_kafka library
 
     # Assign the consumer the partitions
     #        See: https://docs.confluent.io/current/clients/confluent-kafka-python/index.html?highlight=partition#confluent_kafka.Consumer.assign
