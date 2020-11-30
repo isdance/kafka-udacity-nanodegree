@@ -34,8 +34,8 @@ def configure_connector():
                 "config": {
                     "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",
                     "topic.prefix": "solution3.",
-                    "mode": "incrementing",
-                    "incrementing.column.name": "id",
+                    "mode": "incrementing", # use a strictly incrementing column on each table to detect only new rows. Note that this will not detect modifications or deletions of existing rows
+                    "incrementing.column.name": "id", 
                     "table.whitelist": "clicks",
                     "tasks.max": 1,
                     "connection.url": "jdbc:postgresql://localhost:5432/classroom",
