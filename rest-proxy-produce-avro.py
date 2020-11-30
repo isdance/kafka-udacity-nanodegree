@@ -34,7 +34,7 @@ def produce():
     #       See: https://docs.confluent.io/current/kafka-rest/api.html#post--topics-(string-topic_name)
     data = {"value_schema": AVRO_SCHEMA, "records": [{"value": asdict(ClickEvent())}]}
     resp = requests.post(
-        f"{REST_PROXY_URL}/topics/lesson4.solution6.click_events",  
+        f"{REST_PROXY_URL}/topics/lesson4.solution6.click_events",
         data=json.dumps(data),
         headers=headers,
     )
