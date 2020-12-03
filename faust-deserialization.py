@@ -15,7 +15,7 @@ class ClickEvent(faust.Record, validation=True, serializer="json"):
     email: str
     timestamp: str
     uri: str
-    number: str
+    number: int
 
 
 app = faust.App("exercise2", broker="kafka://localhost:9092")
@@ -35,7 +35,7 @@ async def clickevent(clickevents):
     async for clickevent in clickevents:
         # now the incoming data from topic has already been type casted 'ClickEvent' object
         # previously it was 'dict' type
-        print(type(clickevent)) # <class '__main__.ClickEvent'>
+        print(type(clickevent))  # <class '__main__.ClickEvent'>
         print(json.dumps(asdict(clickevent), indent=2))
 
 
