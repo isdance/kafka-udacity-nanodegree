@@ -13,7 +13,7 @@ class ClickEvent(faust.Record, validation=True, serializer="json"):
 
 
 @dataclass
-# serializer="json|binary" means when serializing, encode to json first, then base64 encode the data to base64 string
+# serializer="json|binary" means when serializing, encode to json first, then base64 encode the data to base64 stri
 class ClickEventSanitized(faust.Record, validation=True, serializer="json|binary"):
     timestamp: str
     uri: str
@@ -27,15 +27,14 @@ sanitized_topic = app.topic(
     "lesson4.solution5.click_events_sanitized", key_type=str, value_type=ClickEventSanitized
 )
 
+
 @app.agent(clickevents_topic)
 async def clickevent(clickevents):
     async for clickevent in clickevents:
         # Modify the incoming click event to remove the user email.
         #       Create and send a ClickEventSanitized object.
         sanitized = ClickEventSanitized(
-            timestamp=clickevent.timestamp,
-            uri=clickevent.uri,
-            number=clickevent.number
+            timestamp=clickevent.timestamp, uri=clickevent.uri, number=clickevent.number
         )
         print(json.dumps(asdict(sanitized), indent=2))
 
