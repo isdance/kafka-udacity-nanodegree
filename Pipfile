@@ -8,6 +8,7 @@ confluent-kafka = {extras = ["avro"], version = "*"}
 faker = "*"
 fastavro = "*"
 requests = "*"
+faust = "*"
 
 [requires]
 python_version = "3.7"
