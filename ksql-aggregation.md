@@ -27,7 +27,7 @@ FROM clickevents
 GROUP BY uri;
 ```
 
-![HISTOGRAM](./docs/img/histogram.pnng)
+![HISTOGRAM](./docs/img/histogram.png)
 
 #### 03 TOPK
 Another common usage of stream processing is to find the top number of some value in a window.
@@ -41,6 +41,6 @@ WINDOW TUMBLING (SIZE 30 SECONDS)
 GROUP BY uri;
 ```
 
-![TOPK](./docs/img/topk.pnng)
+![TOPK](./docs/img/topk.png)
 
 You'll see the window begin to scroll by. As the top 5 numbers by uri updates for each of our currencies, the query will update. If you wait for 5 minutes, you will see the window reset.
